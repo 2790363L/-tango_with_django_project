@@ -1,0 +1,58 @@
+<!-- rango/base.html -->
+
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+<html>
+<head>
+    <title>
+        Rango -
+        {% block title_block %}
+            How to Tango with Django!
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <nav>
+        <div>
+            {% block body_block %}
+            {% endblock %}
+        </div>
+        <hr />
+        <div>
+            <ul>
+                <!-- Navigation links for all users -->
+                <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
+                <li><a href="{% url 'rango:about' %}">About</a></li>
+                <li><a href="{% url 'rango:index' %}">Index</a></li>
+
+                <!-- Conditional links based on user authentication -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
+                    <li><a href="{% url 'rango:logout' %}">Logout</a></li>
+                    <li>howdy {{ user.username }}!</li>
+                {% else %}
+                    <li><a href="{% url 'rango:register' %}">Sign Up</a></li>
+                    <li><a href="{% url 'rango:login' %}">Login</a></li>
+                    <li>hey there partner!</li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div>
+        {% block sidebar_block %}
+            {% get_category_list %}
+            <ul>
+                {% for category in categories %}
+                    {% if category.slug %}
+                        <li>
+                            <a href="{% url 'rango:show_category' category_name_slug=category.slug %}">{{ category.name }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endblock %}
+    </div>
+</body>
+</html>

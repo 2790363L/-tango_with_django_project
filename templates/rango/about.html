@@ -1,0 +1,48 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    About
+{% endblock %}
+
+{% block body_block %}
+    <h1>About Rango</h1>
+    <p>Welcome to Rango, the place to find information about delicious desserts!</p>
+    
+    <p>Visits: {{ visits }}</p>
+    
+    <p>For more information, <a href="{% url 'rango:index' %}">visit our homepage</a>.</p>
+{% endblock %}
+
+{% block additional_content %}
+    <h1>Rango says...</h1>
+    <div>
+        Here is the about page. <br />
+        This tutorial has been put together by {{ 2790363l }}.
+    </div>
+
+    <div>
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                    {% if category.slug %}
+                        <a href="{% url 'rango:show_category' category_name_slug=category.slug %}">Link to Category</a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <a href="{% url 'rango:add_category' %}">Add a New Category</a><br />
+        <a href="{% url 'rango:index' %}">Back to Index</a>
+        <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+    </div>
+
+    <!-- Display the cat image from the media directory -->
+    <div>
+        <img src="{{ MEDIA_URL }}/cat.jpeg" alt="Picture of a Cat" />
+    </div>
+{% endblock %}
